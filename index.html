@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+      var win = nw.Window.get()
+      win.resizeTo(1920, 1080)
+      win.moveTo(0, 0)
+    </script>
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        text-align: center;
+        background: url("./bg.jpg") no-repeat;
+        overflow: hidden;
+        background-size: 100% 100%;
+	font-family: Verdana Pro, sans-serif;
+        font-weight: bold;
+        color: #faf9f5;
+      }
+      #container {
+        max-width: 80%;
+    	max-height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+      }
+      #title {
+        font-size: 300px;
+		color: #e2cf8e;
+        margin-top: 250px;
+      }
+      #disc {
+        font-size: 50px;
+		color: #faf9f5;
+        margin: 40px 0;
+      }
+      #image {
+        margin-top: auto;
+	margin-bottom: auto;
+        max-height: 280px;
+        border: 0px solid #E23540FF;
+	max-width: 100%;
+        border-radius: 0px;
+      }
+      #list {
+	margin: 0px auto;
+        max-width: 100%;
+      }
+      #list span {
+        display: inline-block;
+        width: 1920px;
+        font-size: 70px;
+        margin-top: 80px;
+   	max-width: 100%;
+    	max-height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	color: #ffffff;
+	text-shadow: 10px 10px 10px #000000;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="title">   </div>
+      <div id="disc">獎品描述</div>
+      <img id="image" />
+      <div id="list"></div>
+    </div>
+    <script>
+      var fs = require('fs')
+      var steps = null
+      var step = 0
+      var names = null
+      var state = ''
+      var namesOrigFile = 'names.ini.orig'
+      var stepsOrigFile = 'steps.json.orig'
+      
+      var disc = document.getElementById('disc')
+      var image = document.getElementById('image')
+      var list = document.getElementById('list')
+
+      function parseNames(data) {
+        return data.split('\n').filter(function(line) {
+          return line.trim() !== ''
+        }).map(function(x) {
+          return x.split(',')
+        })
+      }
+
+      function reloadConf(func) {
+        fs.readFile('names.ini', 'utf8', function(err, data) {
+          names = parseNames(data)
+          if (!fs.existsSync(namesOrigFile)) {
+            fs.writeFileSync(namesOrigFile, data)
+          }
+        })
+        fs.readFile('./steps.json', 'utf8', function(err, data) {
+          steps = eval(data)
+          if (!fs.existsSync(stepsOrigFile)) {
+            fs.writeFileSync(stepsOrigFile, data)
+          }
+          if (func) func()
+        })
+      }
+
+      function saveConf(func) {
+        fs.writeFile('./steps.json', JSON.stringify(steps), function(err) {
+          if (err) {
+            alert(err)
+          }
+        })
+        fs.writeFile('./names.ini', names.map(x => x.join(',')).join('\n'), function(err) {
+          if (err) {
+            alert(err)
+          }
+          if (func) func()
+        })
+      }
+
+      function currentWinners(data) {
+        if (data.winners && data.winners.length) {
+          return data.winners
+        }
+        if (data.list && data.list.length) {
+          return data.list.map(function(name) {
+            return [name, String(data.level)]
+          })
+        }
+        return []
+      }
+
+      function resetAll() {
+        if (!confirm('確定重置整個抽獎系統？所有中獎紀錄都會清除。')) {
+          return
+        }
+        if (!fs.existsSync(namesOrigFile) || !fs.existsSync(stepsOrigFile)) {
+          alert('找不到原始備份（names.ini.orig / steps.json.orig）')
+          return
+        }
+        var namesData = fs.readFileSync(namesOrigFile, 'utf8')
+        var stepsData = fs.readFileSync(stepsOrigFile, 'utf8')
+        fs.writeFileSync('./names.ini', namesData)
+        fs.writeFileSync('./steps.json', stepsData)
+        step = 0
+        state = ''
+        reloadConf(nextStep)
+      }
+
+      function redrawPrize() {
+        if (!steps || !steps[step]) {
+          return
+        }
+        var data = steps[step]
+        var winners = currentWinners(data)
+        if (!winners.length) {
+          return
+        }
+        if (!confirm('確定重抽本獎？本獎中獎者會放回名單，其他獎項不變。')) {
+          return
+        }
+        for (var i = 0; i < winners.length; ++i) {
+          names.push(winners[i].slice())
+        }
+        data.list = []
+        data.winners = []
+        saveConf()
+        state = 'showBlink'
+        showBlink(data)
+      }
+
+      function showPic(data) {
+        disc.innerHTML = data.disc
+        image.src = data.image
+        image.style.display = 'inline'
+        list.style.display = 'none'
+        while (list.hasChildNodes()) {
+          list.removeChild(list.firstChild)
+        }
+      }
+
+      function showBlink(data) {
+        disc.innerHTML = data.disc
+        image.style.display = 'none'
+        list.style.display = 'block'
+        var spans = []
+        for (var i = 0; i < data.count; ++i) {
+          var span = document.createElement('span')
+          list.appendChild(span)
+          spans.push(span)
+        }
+
+        function doBlink() {
+          if (state == 'showBlink') {
+            names.sort(function() {
+              return 0.5 - Math.random()
+            })
+            for (var i = 0; i < data.count; ++i) {
+              spans[i].innerHTML = names[i][0]
+            }
+            window.requestAnimationFrame(doBlink)
+          }
+        }
+
+        window.requestAnimationFrame(doBlink)
+      }
+
+      function showList(data) {
+        disc.innerHTML = data.disc
+        image.style.display = 'none'
+        list.style.display = 'block'
+        while (list.hasChildNodes()) {
+          list.removeChild(list.firstChild)
+        }
+        for (var i = 0; i < data.list.length; ++i) {
+          var span = document.createElement('span')
+          span.innerHTML = data.list[i]
+          list.appendChild(span)
+        }
+      }
+
+      function nextStep() {
+        var data = steps[step]
+        if (state == 'showPic') {
+          data.list = data.list || []
+          if (data.list.length > 0) {
+            state = 'showList'
+            showList(data)
+          } else {
+            state = 'showBlink'
+            showBlink(data)
+          }
+        } else if (state == 'showBlink') {
+          if (data.list.length > 0) {
+            state = 'showList'
+            showList(data)
+          }
+        } else if (state == 'showList') {
+          if (step < (steps.length - 1)) {
+            ++step
+            state = ''
+            nextStep()
+          }
+        } else {
+          state = 'showPic'
+          showPic(data)
+        }
+      }
+
+      function previousStep() {
+        if (step > 0) {
+          --step
+        }
+        state = ''
+        nextStep()
+      }
+
+      function drawPrize() {
+        if (state == 'showBlink') {
+          var data = steps[step]
+          names.sort(function (a, b) {
+            if (a[1] <= data.level && b[1] > data.level) {
+              return -1
+            }
+            return 0
+          })
+          var luck = names.splice(0, data.count)
+          data.winners = luck.map(function(x) {
+            return x.slice()
+          })
+          data.list = luck.map(x => x[0])
+          saveConf()
+          nextStep()
+        }
+      }
+
+      document.addEventListener('keydown', function(e) {
+        e=e||window.event
+        var cmd = e.ctrlKey || e.metaKey
+        if (cmd && (e.keyCode == 83 || e.key == 's' || e.key == 'S')) {
+          e.preventDefault()
+          resetAll()
+        } else if (cmd && (e.keyCode == 82 || e.key == 'r' || e.key == 'R')) {
+          e.preventDefault()
+          redrawPrize()
+        } else if (e.keyCode == 116) {
+          // F5 - reload
+          reloadConf()
+        } else if (e.keyCode == 39) {
+          // Arrow Right - next step
+          nextStep()
+        } else if (e.keyCode == 37) {
+          // Arrow Left - previous step
+          previousStep()
+        } else if (e.keyCode == 32) {
+          // 空格 - draw prize
+          drawPrize()
+        } else if (e.keyCode == 70) {
+          // f - full screen
+          win.toggleFullscreen()
+        }
+      })
+      
+      reloadConf(nextStep)
+    </script> 
+  </body>
+</html>

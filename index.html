@@ -4,9 +4,7 @@
   <head>
     <meta charset="utf-8">
     <script>
-      var win = nw.Window.get()
-      win.resizeTo(1920, 1080)
-      win.moveTo(0, 0)
+      var win = null
     </script>
     <style type="text/css">
       * {
@@ -77,13 +75,13 @@
       <div id="list"></div>
     </div>
     <script>
-      var fs = require('fs')
       var steps = null
       var step = 0
       var names = null
       var state = ''
-      var namesOrigFile = 'names.ini.orig'
-      var stepsOrigFile = 'steps.json.orig'
+      var originalNames = null
+      var originalSteps = null
+      var savedStateKey = 'has-lucky-draw-state'
       
       var disc = document.getElementById('disc')
       var image = document.getElementById('image')
@@ -98,33 +96,38 @@
       }
 
       function reloadConf(func) {
-        fs.readFile('names.ini', 'utf8', function(err, data) {
-          names = parseNames(data)
-          if (!fs.existsSync(namesOrigFile)) {
-            fs.writeFileSync(namesOrigFile, data)
-          }
-        })
-        fs.readFile('./steps.json', 'utf8', function(err, data) {
-          steps = eval(data)
-          if (!fs.existsSync(stepsOrigFile)) {
-            fs.writeFileSync(stepsOrigFile, data)
+        Promise.all([
+          fetch('./names.ini').then(function(response) {
+            if (!response.ok) throw new Error('Unable to load names.ini')
+            return response.text()
+          }),
+          fetch('./steps.json').then(function(response) {
+            if (!response.ok) throw new Error('Unable to load steps.json')
+            return response.json()
+          })
+        ]).then(function(data) {
+          names = parseNames(data[0])
+          steps = data[1]
+          originalNames = names.map(function(name) { return name.slice() })
+          originalSteps = JSON.parse(JSON.stringify(steps))
+          var savedState = localStorage.getItem(savedStateKey)
+          if (savedState) {
+            var saved = JSON.parse(savedState)
+            names = saved.names
+            steps = saved.steps
           }
           if (func) func()
+        }).catch(function(err) {
+          alert(err.message + '. Check that the site is being served over HTTP.')
         })
       }
 
       function saveConf(func) {
-        fs.writeFile('./steps.json', JSON.stringify(steps), function(err) {
-          if (err) {
-            alert(err)
-          }
-        })
-        fs.writeFile('./names.ini', names.map(x => x.join(',')).join('\n'), function(err) {
-          if (err) {
-            alert(err)
-          }
-          if (func) func()
-        })
+        localStorage.setItem(savedStateKey, JSON.stringify({
+          names: names,
+          steps: steps
+        }))
+        if (func) func()
       }
 
       function currentWinners(data) {
@@ -143,14 +146,13 @@
         if (!confirm('確定重置整個抽獎系統？所有中獎紀錄都會清除。')) {
           return
         }
-        if (!fs.existsSync(namesOrigFile) || !fs.existsSync(stepsOrigFile)) {
-          alert('找不到原始備份（names.ini.orig / steps.json.orig）')
+        if (!originalNames || !originalSteps) {
+          alert('原始資料尚未載入')
           return
         }
-        var namesData = fs.readFileSync(namesOrigFile, 'utf8')
-        var stepsData = fs.readFileSync(stepsOrigFile, 'utf8')
-        fs.writeFileSync('./names.ini', namesData)
-        fs.writeFileSync('./steps.json', stepsData)
+        names = originalNames.map(function(name) { return name.slice() })
+        steps = JSON.parse(JSON.stringify(originalSteps))
+        localStorage.removeItem(savedStateKey)
         step = 0
         state = ''
         reloadConf(nextStep)
@@ -306,7 +308,11 @@
           drawPrize()
         } else if (e.keyCode == 70) {
           // f - full screen
-          win.toggleFullscreen()
+          if (document.fullscreenElement) {
+            document.exitFullscreen()
+          } else {
+            document.documentElement.requestFullscreen()
+          }
         }
       })
       

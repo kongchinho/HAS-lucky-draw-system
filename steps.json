@@ -1,1 +1,76 @@
-[{"disc":"15獎 Airpods Pro 3","count":1,"level":1,"image":"./gift_img/15.png","list":["AHG P17336 LEE K*** K***  "],"winners":[["AHG P17336 LEE K*** K***  ","1"]]},{"disc":"14獎 百佳購物禮券港幣2,000元","count":1,"level":1,"image":"./gift_img/14.png","list":["AHG P07374 WONG W*** L***  "],"winners":[["AHG P07374 WONG W*** L***  ","1"]]},{"disc":"13獎 大韓航空經濟客位來回機票(香港−仁川)","count":1,"level":1,"image":"./gift_img/13.png","list":["FRT P17607 CHAU W*** L***  "],"winners":[["FRT P17607 CHAU W*** L***  ","1"]]},{"disc":"12獎 iPad Wi-Fi 128GB","count":1,"level":1,"image":"./gift_img/12.png"},{"disc":"11獎 惠康購物禮券港幣3,000元","count":1,"level":1,"image":"./gift_img/11.png"},{"disc":"10獎 Apple Watch Series 11 (GPS)","count":1,"level":1,"image":"./gift_img/10.png"},{"disc":"9獎 18K金鑽石頸鏈","count":1,"level":1,"image":"./gift_img/9.png"},{"disc":"8獎 iPad mini Wi‑Fi 128GB","count":1,"level":1,"image":"./gift_img/8.png"},{"disc":"7獎 濟州航空雙人來回機票(香港−仁川)","count":1,"level":1,"image":"./gift_img/7.png"},{"disc":"6獎 Samsonite x 卡塔爾航空手提行李箱","count":1,"level":1,"image":"./gift_img/6.png"},{"disc":"5獎 iPhone 17 256GB","count":1,"level":1,"image":"./gift_img/5.png"},{"disc":"4獎 iPhone Air 256GB","count":1,"level":1,"image":"./gift_img/4.png"},{"disc":"3獎 曼谷航空經濟客位雙人來回機票(香港−蘇梅)","count":1,"level":1,"image":"./gift_img/3.png"},{"disc":"2獎 香港快運雙人來回機票(任何目的地)、惠康購物禮券港幣800元 及 1天有薪年假","count":1,"level":1,"image":"./gift_img/2.png"},{"disc":"頭獎 國泰航空商務客位雙人來回機票(任何目的地)、惠康購物禮券港幣1,200元 及 3天有薪年假","count":1,"level":1,"image":"./gift_img/1.png"}]
+[{
+    "disc": "15獎 Airpods Pro 3",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/15.png"
+}, {
+    "disc": "14獎 百佳購物禮券港幣2,000元",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/14.png"
+}, {
+    "disc": "13獎 大韓航空經濟客位來回機票(香港−仁川)",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/13.png"
+}, {
+    "disc": "12獎 iPad Wi-Fi 128GB",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/12.png"
+}, {
+    "disc": "11獎 惠康購物禮券港幣3,000元",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/11.png"
+}, {
+    "disc": "10獎 Apple Watch Series 11 (GPS)",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/10.png"
+}, {
+    "disc": "9獎 18K金鑽石頸鏈",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/9.png"
+}, {
+    "disc": "8獎 iPad mini Wi‑Fi 128GB",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/8.png"
+}, {
+    "disc": "7獎 濟州航空雙人來回機票(香港−仁川)",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/7.png"
+}, {
+    "disc": "6獎 Samsonite x 卡塔爾航空手提行李箱",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/6.png"
+}, {
+    "disc": "5獎 iPhone 17 256GB",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/5.png"
+}, {
+    "disc": "4獎 iPhone Air 256GB",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/4.png"
+}, {
+    "disc": "3獎 曼谷航空經濟客位雙人來回機票(香港−蘇梅)",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/3.png"
+}, {
+    "disc": "2獎 香港快運雙人來回機票(任何目的地)、惠康購物禮券港幣800元 及 1天有薪年假",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/2.png"
+}, {
+    "disc": "頭獎 國泰航空商務客位雙人來回機票(任何目的地)、惠康購物禮券港幣1,200元 及 3天有薪年假",
+    "count": 1,
+    "level": 1,
+    "image": "./gift_img/1.png"
+}]

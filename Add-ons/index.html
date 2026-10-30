@@ -4,9 +4,7 @@
   <head>
     <meta charset="utf-8">
     <script>
-      var win = nw.Window.get()
-      win.resizeTo(1920, 1080)
-      win.moveTo(0, 0)
+      var win = null
     </script>
     <style type="text/css">
       * {
@@ -44,7 +42,7 @@
       }
       #image {
         margin-top: auto;
-	margin-bottm: auto;
+	margin-bottom: auto;
         max-height: 280px;
         border: 0px solid #E23540FF;
 	max-width: 100%;
@@ -77,37 +75,109 @@
       <div id="list"></div>
     </div>
     <script>
-      var fs = require('fs')
       var steps = null
       var step = 0
       var names = null
       var state = ''
+      var originalNames = null
+      var originalSteps = null
+      var savedStateKey = 'has-lucky-draw-state:' + location.pathname
       
       var disc = document.getElementById('disc')
       var image = document.getElementById('image')
       var list = document.getElementById('list')
 
-      function reloadConf(func) {
-        fs.readFile('names.ini', 'utf8', function(err, data) {
-          names = data.split('\n').map(x => x.split(','))
+      function parseNames(data) {
+        return data.split('\n').filter(function(line) {
+          return line.trim() !== ''
+        }).map(function(x) {
+          return x.split(',')
         })
-        fs.readFile('./steps.json', 'utf8', function(err, data) {
-          steps = eval(data)
+      }
+
+      function reloadConf(func) {
+        Promise.all([
+          fetch('./names.ini').then(function(response) {
+            if (!response.ok) throw new Error('Unable to load names.ini')
+            return response.text()
+          }),
+          fetch('./steps.json').then(function(response) {
+            if (!response.ok) throw new Error('Unable to load steps.json')
+            return response.json()
+          })
+        ]).then(function(data) {
+          names = parseNames(data[0])
+          steps = data[1]
+          originalNames = names.map(function(name) { return name.slice() })
+          originalSteps = JSON.parse(JSON.stringify(steps))
+          var savedState = localStorage.getItem(savedStateKey)
+          if (savedState) {
+            var saved = JSON.parse(savedState)
+            names = saved.names
+            steps = saved.steps
+          }
           if (func) func()
+        }).catch(function(err) {
+          alert(err.message + '. Check that the site is being served over HTTP.')
         })
       }
 
       function saveConf(func) {
-        fs.writeFile('./steps.json', JSON.stringify(steps), function(err) {
-          if (err) {
-            alert(err)
-          }
-        })
-        fs.writeFile('./names.ini', names.map(x => x.join(',')).join('\n'), function(err) {
-          if (err) {
-            alert(err)
-          }
-        })
+        localStorage.setItem(savedStateKey, JSON.stringify({
+          names: names,
+          steps: steps
+        }))
+        if (func) func()
+      }
+
+      function currentWinners(data) {
+        if (data.winners && data.winners.length) {
+          return data.winners
+        }
+        if (data.list && data.list.length) {
+          return data.list.map(function(name) {
+            return [name, String(data.level)]
+          })
+        }
+        return []
+      }
+
+      function resetAll() {
+        if (!confirm('確定重置整個抽獎系統？所有中獎紀錄都會清除。')) {
+          return
+        }
+        if (!originalNames || !originalSteps) {
+          alert('原始資料尚未載入')
+          return
+        }
+        names = originalNames.map(function(name) { return name.slice() })
+        steps = JSON.parse(JSON.stringify(originalSteps))
+        localStorage.removeItem(savedStateKey)
+        step = 0
+        state = ''
+        reloadConf(nextStep)
+      }
+
+      function redrawPrize() {
+        if (!steps || !steps[step]) {
+          return
+        }
+        var data = steps[step]
+        var winners = currentWinners(data)
+        if (!winners.length) {
+          return
+        }
+        if (!confirm('確定重抽本獎？本獎中獎者會放回名單，其他獎項不變。')) {
+          return
+        }
+        for (var i = 0; i < winners.length; ++i) {
+          names.push(winners[i].slice())
+        }
+        data.list = []
+        data.winners = []
+        saveConf()
+        state = 'showBlink'
+        showBlink(data)
       }
 
       function showPic(data) {
@@ -206,6 +276,9 @@
             return 0
           })
           var luck = names.splice(0, data.count)
+          data.winners = luck.map(function(x) {
+            return x.slice()
+          })
           data.list = luck.map(x => x[0])
           saveConf()
           nextStep()
@@ -214,7 +287,14 @@
 
       document.addEventListener('keydown', function(e) {
         e=e||window.event
-        if (e.keyCode == 116) {
+        var cmd = e.ctrlKey || e.metaKey
+        if (cmd && (e.keyCode == 83 || e.key == 's' || e.key == 'S')) {
+          e.preventDefault()
+          resetAll()
+        } else if (cmd && (e.keyCode == 82 || e.key == 'r' || e.key == 'R')) {
+          e.preventDefault()
+          redrawPrize()
+        } else if (e.keyCode == 116) {
           // F5 - reload
           reloadConf()
         } else if (e.keyCode == 39) {
@@ -228,11 +308,15 @@
           drawPrize()
         } else if (e.keyCode == 70) {
           // f - full screen
-          win.toggleFullscreen()
+          if (document.fullscreenElement) {
+            document.exitFullscreen()
+          } else {
+            document.documentElement.requestFullscreen()
+          }
         }
       })
       
       reloadConf(nextStep)
     </script> 
-  </bdoy>
+  </body>
 </html>

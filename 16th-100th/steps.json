@@ -1,76 +1,512 @@
-[{
-    "disc": "15獎 Airpods Pro 3",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/15.png"
-}, {
-    "disc": "14獎 百佳購物禮券港幣2,000元",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/14.png"
-}, {
-    "disc": "13獎 大韓航空經濟客位來回機票(香港−仁川)",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/13.png"
-}, {
-    "disc": "12獎 iPad Wi-Fi 128GB",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/12.png"
-}, {
-    "disc": "11獎 惠康購物禮券港幣3,000元",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/11.png"
-}, {
-    "disc": "10獎 Apple Watch Series 11 (GPS)",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/10.png"
-}, {
-    "disc": "9獎 18K金鑽石頸鏈",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/9.png"
-}, {
-    "disc": "8獎 iPad mini Wi‑Fi 128GB",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/8.png"
-}, {
-    "disc": "7獎 濟州航空雙人來回機票(香港−仁川)",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/7.png"
-}, {
-    "disc": "6獎 Samsonite x 卡塔爾航空手提行李箱",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/6.png"
-}, {
-    "disc": "5獎 iPhone 17 256GB",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/5.png"
-}, {
-    "disc": "4獎 iPhone Air 256GB",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/4.png"
-}, {
-    "disc": "3獎 曼谷航空經濟客位雙人來回機票(香港−蘇梅)",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/3.png"
-}, {
-    "disc": "2獎 香港快運雙人來回機票(任何目的地)、惠康購物禮券港幣800元 及 1天有薪年假",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/2.png"
-}, {
-    "disc": "頭獎 國泰航空商務客位雙人來回機票(任何目的地)、惠康購物禮券港幣1,200元 及 3天有薪年假",
-    "count": 1,
-    "level": 1,
-    "image": "./gift_img/1.png"
-}]
+[
+    {
+        "disc": "100獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "99獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "98獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "97獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "96獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "95獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "94獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "93獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "92獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "91獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "90獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "89獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "88獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "87獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "86獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "85獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "84獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "83獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "82獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "81獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "80獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "79獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "78獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "77獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "76獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "75獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "74獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "73獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "72獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "71獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "70獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "69獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "68獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "67獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "66獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "65獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "64獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "63獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "62獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "61獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "60獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "59獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "58獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "57獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "56獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "55獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "54獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "53獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "52獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "51獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "50獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "49獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "48獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "47獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "46獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "45獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "44獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "43獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "42獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "41獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "40獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "39獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "38獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "37獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "36獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "35獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "34獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "33獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "32獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "31獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "30獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "29獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "28獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "27獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "26獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "25獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "24獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "23獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "22獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "21獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "20獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "19獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "18獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "17獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    },
+    {
+        "disc": "16獎",
+        "count": 1,
+        "level": 1,
+        "image": "./gift_img/Gift.png"
+    }
+]

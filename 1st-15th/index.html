@@ -165,7 +165,7 @@
           var winners = currentWinners(data)
           for (var j = 0; j < winners.length; ++j) {
             var winner = Array.isArray(winners[j]) ? winners[j][0] : winners[j]
-            var parts = String(winner).trim().split(/\\s+/)
+            var parts = String(winner).trim().split(/\s+/)
             var section = parts.shift() || ''
             parts.shift()
             rows.push([steps.length - i, data.disc, parts.join(' '), section])
@@ -175,9 +175,9 @@
           alert('目前沒有中獎紀錄')
           return
         }
-        var csv = '\\ufeff' + rows.map(function(row) {
+        var csv = '\ufeff' + rows.map(function(row) {
           return row.map(csvCell).join(',')
-        }).join('\\r\\n')
+        }).join('\r\n')
         var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
         var link = document.createElement('a')
         link.href = URL.createObjectURL(blob)

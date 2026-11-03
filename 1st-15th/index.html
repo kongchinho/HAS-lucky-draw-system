@@ -102,10 +102,31 @@
       var originalSteps = null
       var savedStateKey = 'has-lucky-draw-state:' + location.pathname
       var fileSystem = null
-      if (typeof require === 'function' && typeof __dirname !== 'undefined') {
-        fileSystem = {
-          fs: require('fs'),
-          path: require('path')
+      if (typeof require === 'function') {
+        var fileSystemModule = require('fs')
+        var pathModule = require('path')
+        var applicationPath = null
+        var candidates = []
+        if (typeof process !== 'undefined' && process.cwd) {
+          candidates.push(process.cwd())
+        }
+        candidates.push(pathModule.dirname(decodeURIComponent(location.pathname)
+          .replace(/^\/([A-Za-z]:)/, '$1')))
+        if (typeof nw !== 'undefined' && nw.App) {
+          candidates.push(nw.App.startPath)
+        }
+        for (var i = 0; i < candidates.length; ++i) {
+          if (fileSystemModule.existsSync(pathModule.join(candidates[i], 'steps.json'))) {
+            applicationPath = candidates[i]
+            break
+          }
+        }
+        if (applicationPath) {
+          fileSystem = {
+            fs: fileSystemModule,
+            path: pathModule,
+            basePath: applicationPath
+          }
         }
       }
       
@@ -134,7 +155,7 @@
         }
         var files = ['steps.json', 'names.ini']
         for (var i = 0; i < files.length; ++i) {
-          var source = fileSystem.path.join(__dirname, files[i])
+          var source = fileSystem.path.join(fileSystem.basePath, files[i])
           var backup = source + '.orig'
           if (!fileSystem.fs.existsSync(backup)) {
             fileSystem.fs.copyFileSync(source, backup)
@@ -146,8 +167,8 @@
         if (!fileSystem) {
           return
         }
-        var stepsPath = fileSystem.path.join(__dirname, 'steps.json.orig')
-        var namesPath = fileSystem.path.join(__dirname, 'names.ini.orig')
+        var stepsPath = fileSystem.path.join(fileSystem.basePath, 'steps.json.orig')
+        var namesPath = fileSystem.path.join(fileSystem.basePath, 'names.ini.orig')
         originalSteps = JSON.parse(fileSystem.fs.readFileSync(stepsPath, 'utf8'))
         originalNames = parseNames(fileSystem.fs.readFileSync(namesPath, 'utf8'))
       }
@@ -185,11 +206,11 @@
         if (fileSystem) {
           try {
             fileSystem.fs.writeFileSync(
-              fileSystem.path.join(__dirname, 'steps.json'),
+              fileSystem.path.join(fileSystem.basePath, 'steps.json'),
               JSON.stringify(steps, null, 2) + '\n'
             )
             fileSystem.fs.writeFileSync(
-              fileSystem.path.join(__dirname, 'names.ini'),
+              fileSystem.path.join(fileSystem.basePath, 'names.ini'),
               names.map(function(name) { return name.join(',') }).join('\n') + '\n'
             )
           } catch (err) {
@@ -268,17 +289,7 @@
         saveConf()
         step = 0
         state = ''
-        try {
-          ensureOriginalFiles()
-          try {
-            ensureOriginalFiles()
-            reloadConf(nextStep)
-          } catch (err) {
-            alert('Unable to create original configuration files: ' + err.message)
-          }
-        } catch (err) {
-          alert('Unable to create original configuration files: ' + err.message)
-        }
+        reloadConf(nextStep)
       }
 
       function redrawPrize() {
@@ -443,7 +454,12 @@
 
       exportButton.addEventListener('click', exportWinners)
       
-      reloadConf(nextStep)
+      try {
+        ensureOriginalFiles()
+        reloadConf(nextStep)
+      } catch (err) {
+        alert('Unable to create original configuration files: ' + err.message)
+      }
     </script> 
   </body>
 </html>

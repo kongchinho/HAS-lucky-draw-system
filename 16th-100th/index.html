@@ -82,6 +82,13 @@
       var originalNames = null
       var originalSteps = null
       var savedStateKey = 'has-lucky-draw-state:' + location.pathname
+      var fileSystem = null
+      if (typeof require === 'function' && typeof __dirname !== 'undefined') {
+        fileSystem = {
+          fs: require('fs'),
+          path: require('path')
+        }
+      }
       
       var disc = document.getElementById('disc')
       var image = document.getElementById('image')
@@ -93,6 +100,30 @@
         }).map(function(x) {
           return x.split(',')
         })
+      }
+
+      function ensureOriginalFiles() {
+        if (!fileSystem) {
+          return
+        }
+        var files = ['steps.json', 'names.ini']
+        for (var i = 0; i < files.length; ++i) {
+          var source = fileSystem.path.join(__dirname, files[i])
+          var backup = source + '.orig'
+          if (!fileSystem.fs.existsSync(backup)) {
+            fileSystem.fs.copyFileSync(source, backup)
+          }
+        }
+      }
+
+      function loadOriginalFiles() {
+        if (!fileSystem) {
+          return
+        }
+        var stepsPath = fileSystem.path.join(__dirname, 'steps.json.orig')
+        var namesPath = fileSystem.path.join(__dirname, 'names.ini.orig')
+        originalSteps = JSON.parse(fileSystem.fs.readFileSync(stepsPath, 'utf8'))
+        originalNames = parseNames(fileSystem.fs.readFileSync(namesPath, 'utf8'))
       }
 
       function reloadConf(func) {
@@ -110,7 +141,8 @@
           steps = data[1]
           originalNames = names.map(function(name) { return name.slice() })
           originalSteps = JSON.parse(JSON.stringify(steps))
-          var savedState = localStorage.getItem(savedStateKey)
+          loadOriginalFiles()
+          var savedState = fileSystem ? null : localStorage.getItem(savedStateKey)
           if (savedState) {
             var saved = JSON.parse(savedState)
             names = saved.names
@@ -123,6 +155,21 @@
       }
 
       function saveConf(func) {
+        if (fileSystem) {
+          try {
+            fileSystem.fs.writeFileSync(
+              fileSystem.path.join(__dirname, 'steps.json'),
+              JSON.stringify(steps, null, 2) + '\n'
+            )
+            fileSystem.fs.writeFileSync(
+              fileSystem.path.join(__dirname, 'names.ini'),
+              names.map(function(name) { return name.join(',') }).join('\n') + '\n'
+            )
+          } catch (err) {
+            alert('Unable to save draw data: ' + err.message)
+            return
+          }
+        }
         localStorage.setItem(savedStateKey, JSON.stringify({
           names: names,
           steps: steps
@@ -153,9 +200,20 @@
         names = originalNames.map(function(name) { return name.slice() })
         steps = JSON.parse(JSON.stringify(originalSteps))
         localStorage.removeItem(savedStateKey)
+        saveConf()
         step = 0
         state = ''
-        reloadConf(nextStep)
+        try {
+          ensureOriginalFiles()
+          try {
+            ensureOriginalFiles()
+            reloadConf(nextStep)
+          } catch (err) {
+            alert('Unable to create original configuration files: ' + err.message)
+          }
+        } catch (err) {
+          alert('Unable to create original configuration files: ' + err.message)
+        }
       }
 
       function redrawPrize() {

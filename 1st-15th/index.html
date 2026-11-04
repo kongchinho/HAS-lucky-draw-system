@@ -234,7 +234,7 @@
           alert('抽獎資料尚未載入')
           return
         }
-        var rows = [['Prize(1-15)', 'disc', 'Winner name', 'Section']]
+        var rows = [['disc', 'Staff number', 'Winner name', 'Section']]
         for (var i = 0; i < steps.length; ++i) {
           var data = steps[i]
           var winners = currentWinners(data)
@@ -242,8 +242,8 @@
             var winner = Array.isArray(winners[j]) ? winners[j][0] : winners[j]
             var parts = String(winner).trim().split(/\s+/)
             var section = parts.shift() || ''
-            parts.shift()
-            rows.push([steps.length - i, data.disc, parts.join(' '), section])
+            var staffNumber = parts.shift() || ''
+            rows.push([data.disc, staffNumber, parts.join(' '), section])
           }
         }
         if (rows.length === 1) {
